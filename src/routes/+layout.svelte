@@ -2,25 +2,33 @@
 	import TopAppBar, { Row, Section, Title, AutoAdjust } from '@smui/top-app-bar';
 	import IconButton from '@smui/icon-button';
 	import TabBar from '../components/TabBar.svelte';
+	import Drawer from '../components/Drawer.svelte';
 
 	let topAppBar: TopAppBar;
+
+	let isDrawerOpen: boolean;
+
+	function handleMenuClick(e: MouseEvent) {
+		isDrawerOpen = !isDrawerOpen;
+		console.log('Yeeeeeeeeeeeeet:', isDrawerOpen);
+	}
 </script>
 
-<TopAppBar bind:this={topAppBar} variant="standard">
+<TopAppBar bind:this={topAppBar} variant="standard" style="background-color: #504F4E">
 	<Row>
-		<Section>
-			<IconButton class="material-icons">menu</IconButton>
+		<Section style="width: 1rem;">
+			<IconButton on:click={handleMenuClick} class="material-icons">menu</IconButton>
 			<Title>GitPop</Title>
 		</Section>
 		<Section>
-			<div>
-				<TabBar />
-			</div>
+			<TabBar />
 		</Section>
 	</Row>
 </TopAppBar>
 <AutoAdjust {topAppBar}>
-	<slot />
+	<Drawer {isDrawerOpen}>
+		<slot />
+	</Drawer>
 </AutoAdjust>
 
 <style>
