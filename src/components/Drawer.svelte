@@ -5,7 +5,6 @@
 
 	export let isDrawerOpen: boolean;
 
-	let open = false;
 	let active = 'Gray Kittens';
 
 	function setActive(value: string) {

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ImageList, { Item, Image, Supporting, Label } from '@smui/image-list';
+	import SearchBar from '../components/SearchBar.svelte';
 
 	function getUnevenImageSize(
 		counter: number,
@@ -12,6 +13,7 @@
 	}
 </script>
 
+<SearchBar />
 <div class="image-list-container">
 	<ImageList class="my-image-list-masonry" masonry>
 		{#each Array(15) as _unused, i}

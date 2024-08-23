@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../app.css';
 	import TopAppBar, { Row, Section, Title, AutoAdjust } from '@smui/top-app-bar';
 	import IconButton from '@smui/icon-button';
 	import TabBar from '../components/TabBar.svelte';
@@ -6,7 +7,7 @@
 
 	let topAppBar: TopAppBar;
 
-	let isDrawerOpen: boolean;
+	let isDrawerOpen: boolean = true;
 
 	function handleMenuClick(e: MouseEvent) {
 		isDrawerOpen = !isDrawerOpen;
@@ -21,13 +22,13 @@
 			<Title>GitPop</Title>
 		</Section>
 		<Section>
-			<TabBar />
+			<TabBar></TabBar>
 		</Section>
 	</Row>
 </TopAppBar>
 <AutoAdjust {topAppBar}>
 	<Drawer {isDrawerOpen}>
-		<slot />
+		<slot></slot>
 	</Drawer>
 </AutoAdjust>
 
