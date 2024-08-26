@@ -19,13 +19,7 @@
 		{#each Array(15) as _unused, i}
 			<Item>
 				<Image
-					src="https://placehold.co/190x{getUnevenImageSize(
-						i,
-						107,
-						200,
-						Math.abs
-					)}?text=190x{getUnevenImageSize(i, 107, 200, Math.abs)}"
-					alt="Image {i + 1}"
+					src="https://images.hobbydb.com/processed_uploads/catalog_item_photo/catalog_item_photo/image/876493/Naruto_Uzumaki_Vinyl_Art_Toys_d20b26e9-48f3-4e20-8269-1f273dc23d0b.JPG"
 				/>
 				<Supporting>
 					<Label>Image {i + 1}</Label>
