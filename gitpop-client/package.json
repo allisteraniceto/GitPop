@@ -27,6 +27,7 @@
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@tailwindcss/typography": "^0.5.14",
 		"@types/eslint": "^8.56.0",
+		"@types/three": "^0.168.0",
 		"@typescript-eslint/eslint-plugin": "^7.0.0",
 		"@typescript-eslint/parser": "^7.0.0",
 		"autoprefixer": "^10.4.20",
@@ -53,6 +54,7 @@
 	"dependencies": {
 		"@smui/icon-button": "^7.0.0",
 		"mongodb": "^6.8.0",
-		"svelte-material-ui": "^7.0.0"
+		"svelte-material-ui": "^7.0.0",
+		"three": "^0.168.0"
 	}
 }
