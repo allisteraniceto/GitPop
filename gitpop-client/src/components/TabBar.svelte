@@ -1,27 +1,37 @@
-<script>
+<script lang="ts">
 	import Tab, { Icon, Label } from '@smui/tab';
 	import TabBar from '@smui/tab-bar';
+	import { goto } from '$app/navigation';
 
 	let tabs = [
 		{
 			icon: 'home',
-			label: 'Home'
+			label: 'Home',
+			route: '/'
 		},
 		{
 			icon: 'favorites',
-			label: 'Favorites'
+			label: 'Favorites',
+			route: '/favorites'
 		},
 		{
 			icon: 'info',
-			label: 'About Us'
+			label: 'About Us',
+			route: '/about'
 		}
 	];
-	let active = tabs[0];
+
+	let active: any = tabs[0];
+
+	const handleTabClick = (tab: any) => {
+		active = tab;
+		goto(tab.route);
+	}
 </script>
 
 <div>
 	<TabBar {tabs} let:tab bind:active>
-		<Tab {tab}>
+		<Tab {tab} on:click={() => handleTabClick(tab)}>
 			<Icon class="material-icons">{tab.icon}</Icon>
 			<Label>{tab.label}</Label>
 		</Tab>

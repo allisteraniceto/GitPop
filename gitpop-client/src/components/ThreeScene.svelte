@@ -4,7 +4,8 @@
   import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
   import modeURL from '../assets/Itachi-9_2_2024.glb'
 
-  let canvas: any;
+  let canvas: HTMLCanvasElement;
+  let model: THREE.Group;
 
   onMount(() => {
     // Set up scene, camera, renderer
@@ -14,7 +15,7 @@
 
     // Correct path to the GLB model
     // Set canvas size to full window size
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(200, 200);
     camera.position.z = 1;
 
     // Add lighting
@@ -27,17 +28,21 @@
 
     // Load GLB model
     const loader = new GLTFLoader();
-    loader.load(modeURL, (gltf: any) => {
-      scene.add(gltf.scene); // Add the loaded model to the scene
-      gltf.scene.position.set(0, 0, 0); // Set the position of the model if needed
-      gltf.scene.scale.set(1, 1, 1); // Adjust the scale if needed
-    }, undefined, (error: any) => {
+    loader.load(modeURL, (gltf) => {
+      model = gltf.scene;
+      scene.add(model); // Add the loaded model to the scene
+      model.position.set(0, 0, 0); // Set the position of the model if needed
+      model.scale.set(1, 1, 1); // Adjust the scale if needed
+    }, undefined, (error) => {
       console.error('An error happened while loading the model:', error);
     });
 
     // Animation loop
     function animate() {
       requestAnimationFrame(animate);
+      if (model) {
+        model.rotation.y += 0.01; // Rotate the model around the Y-axis
+      }
       renderer.render(scene, camera);
     }
     animate();
