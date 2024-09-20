@@ -6,6 +6,7 @@
 
   let canvas: HTMLCanvasElement;
   let model: THREE.Group;
+  let pivot: THREE.Object3D
 
   onMount(() => {
     // Set up scene, camera, renderer
@@ -13,10 +14,23 @@
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ canvas });
 
-    // Correct path to the GLB model
-    // Set canvas size to full window size
-    renderer.setSize(200, 200);
-    camera.position.z = 1;
+    // Convert rem to pixels
+    const remToPixels = (rem: number) => {
+      return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+    };
+
+    // Set canvas size using rem units
+    const widthInRem = 8; // Example: 10rem
+    const heightInRem = 10.5; // Example: 10rem
+    const widthInPixels = remToPixels(widthInRem);
+    const heightInPixels = remToPixels(heightInRem);
+    renderer.setSize(widthInPixels, heightInPixels);
+
+    // Update camera aspect ratio to match canvas size
+    camera.aspect = widthInPixels / heightInPixels;
+    camera.updateProjectionMatrix();
+
+    camera.position.z = .3;
 
     // Add lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -26,30 +40,47 @@
     directionalLight.position.set(5, 5, 5).normalize();
     scene.add(directionalLight);
 
+    // Create a pivot object
+    pivot = new THREE.Object3D();
+    scene.add(pivot);
+
     // Load GLB model
     const loader = new GLTFLoader();
     loader.load(modeURL, (gltf) => {
       model = gltf.scene;
-      scene.add(model); // Add the loaded model to the scene
-      model.position.set(0, 0, 0); // Set the position of the model if needed
+
+      // Center the model's geometry
+      model.traverse((child) => {
+        if (child.isMesh) {
+          child.geometry.center();
+        }
+      });
+
+      pivot.add(model); // Add the loaded model to the pivot
+      model.position.set(0, 0, 0); // Ensure the model is centered within the pivot
       model.scale.set(1, 1, 1); // Adjust the scale if needed
+
+      animate();
     }, undefined, (error) => {
       console.error('An error happened while loading the model:', error);
     });
 
-    // Animation loop
-    function animate() {
+    //animate
+    const animate = () => {
       requestAnimationFrame(animate);
-      if (model) {
-        model.rotation.y += 0.01; // Rotate the model around the Y-axis
+
+      // Rotate the pivot on its axis
+      if (pivot) {
+        pivot.rotation.y += 0.01; // Adjust the rotation speed as needed
       }
+
       renderer.render(scene, camera);
     }
-    animate();
 
     // Handle resizing
     window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
+      const aspect = window.innerWidth / window.innerHeight;
+      camera.aspect = aspect;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
@@ -59,8 +90,8 @@
 <canvas bind:this={canvas}></canvas>
 
 <style>
-  canvas {
+  /* canvas {
     height: 8rem;
     width: 12rem;
-  }
+  } */
 </style>
