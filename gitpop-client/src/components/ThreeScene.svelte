@@ -30,7 +30,7 @@
     camera.aspect = widthInPixels / heightInPixels;
     camera.updateProjectionMatrix();
 
-    camera.position.z = .3;
+    camera.position.z = .23;
 
     // Add lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
