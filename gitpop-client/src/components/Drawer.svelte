@@ -4,6 +4,9 @@
 	import List, { Item, Text } from '@smui/list';
 
 	export let isDrawerOpen: boolean;
+	export let isDialogOpen: boolean = false;
+
+	$: console.log('isDialogOpen:', isDialogOpen);
 
 	let active = 'Gray Kittens';
 
@@ -25,37 +28,35 @@
 					on:click={() => setActive('Gray Kittens')}
 					activated={active === 'Gray Kittens'}
 				>
-					<Text>Gray Kittens</Text>
+					<Text>My collection</Text>
 				</Item>
 				<Item
 					href="javascript:void(0)"
 					on:click={() => setActive('A Space Rocket')}
 					activated={active === 'A Space Rocket'}
 				>
-					<Text>A Space Rocket</Text>
+					<Text>Favorites</Text>
 				</Item>
 				<Item
 					href="javascript:void(0)"
 					on:click={() => setActive('100 Pounds of Gravel')}
 					activated={active === '100 Pounds of Gravel'}
 				>
-					<Text>100 Pounds of Gravel</Text>
+					<Text>Wishlist</Text>
 				</Item>
 				<Item
 					href="javascript:void(0)"
 					on:click={() => setActive('All of the Shrimp')}
 					activated={active === 'All of the Shrimp'}
 				>
-					<Text>All of the Shrimp</Text>
-				</Item>
-				<Item
-					href="javascript:void(0)"
-					on:click={() => setActive('A Planet with a Mall')}
-					activated={active === 'A Planet with a Mall'}
-				>
-					<Text>A Planet with a Mall</Text>
+					<Text>Exclusive Pops </Text>
 				</Item>
 			</List>
+			<div class="add-to-collection">
+				<Button on:click={() => {isDialogOpen = !isDialogOpen}}>
+					<Label>Add to my collection</Label>
+				</Button>
+			</div>
 		</Content>
 	</Drawer>
 	<AppContent class="app-content">
@@ -88,5 +89,11 @@
 		padding: 16px;
 		height: 100%;
 		box-sizing: border-box;
+	}
+
+	.add-to-collection {
+		padding: 16px;
+		display: flex;
+		justify-content: center;
 	}
 </style>

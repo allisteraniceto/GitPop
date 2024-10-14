@@ -1,5 +1,6 @@
 <script lang="ts">
-	import ImageList, { Item, Image, Supporting, Label } from '@smui/image-list';
+	import ImageList, { Item, Image, Supporting, Label} from '@smui/image-list';
+
 	import SearchBar from '../components/SearchBar.svelte';
 	import ThreeScene from '../components/ThreeScene.svelte';
 
