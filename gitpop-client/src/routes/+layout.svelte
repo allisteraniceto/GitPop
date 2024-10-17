@@ -4,14 +4,14 @@
 	import IconButton from '@smui/icon-button';
 	import TabBar from '../components/TabBar.svelte';
 	import Drawer from '../components/Drawer.svelte';
-	import Dialog, { Title as Titlee, Content, Actions } from '@smui/dialog';
+	import Dialog, { Title as Titlee, Content, Actions, InitialFocus } from '@smui/dialog';
 	import Button, { Label } from '@smui/button';
 
 	let topAppBar: TopAppBar;
 	let isDialogOpen: boolean = false;
 	let isDrawerOpen: boolean = true;
 
-	function handleMenuClick(e: MouseEvent) {
+	const handleMenuClick = (e: MouseEvent) => {
 		isDrawerOpen = !isDrawerOpen;
 		console.log('Yeeeeeeeeeeeeet:', isDrawerOpen);
 	}
@@ -36,16 +36,28 @@
 		bind:open={isDialogOpen}
 		aria-labelledby="simple-title"
 		aria-describedby="simple-content"
+		class="custom-dialog"
 	>
 		<!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
-		<Titlee id="simple-title">Dialog Title</Titlee>
-		<Content id="simple-content">Super awesome dialog body text?</Content>
+		<Titlee id="simple-title">Add to my collection</Titlee>
+		<Content id="simple-content">
+			<p>Who's the lucky funko pop today?</p>
+			<input type="text" placeholder="Enter the name of the funko pop" />
+			<p>Hard earned money I paid for 😊</p>
+			<input type="number" placeholder="Enter the price of the funko pop" />
+			<p>Category</p>
+			<input type="text" placeholder="Enter the category of the funko pop" />
+		</Content>
+		
 		<Actions>
 			<Button on:click={() => (clicked = 'No')}>
-			<Label>No</Label>
+				<Label>Cancel</Label>
 			</Button>
-			<Button on:click={() => (clicked = 'Yes')}>
-			<Label>Yes</Label>
+			<Button
+				use={[InitialFocus]} 
+				on:click={() => (clicked = 'Yes')}
+			>
+				<Label>Add</Label>
 			</Button>
 		</Actions>
 	</Dialog>
@@ -61,5 +73,18 @@
 		width: auto !important;
 		position: static !important;
 		margin: 0;
+	}
+	:global(.mdc-dialog__surface){
+		width: 30rem;
+		height: 25rem;
+		max-height: 100%;
+	}
+	:global(.mdc-dialog__actions){
+		padding: 0.750rem;
+	}
+
+	input {
+		color: black;
+		margin-bottom: 1.25rem;
 	}
 </style>

@@ -53,6 +53,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@material/image-list": "^14.0.0",
 		"@smui/icon-button": "^7.0.0",
 		"mongodb": "^6.8.0",
 		"svelte-material-ui": "^7.0.0",
