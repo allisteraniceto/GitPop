@@ -4,8 +4,7 @@
 	import IconButton from '@smui/icon-button';
 	import TabBar from '../components/TabBar.svelte';
 	import Drawer from '../components/Drawer.svelte';
-	import Dialog, { Title as Titlee, Content, Actions, InitialFocus } from '@smui/dialog';
-	import Button, { Label } from '@smui/button';
+	import AddDialogue from '../components/AddDialogue.svelte';
 
 	let topAppBar: TopAppBar;
 	let isDialogOpen: boolean = false;
@@ -32,35 +31,7 @@
 	<Drawer {isDrawerOpen} bind:isDialogOpen>
 		<slot/>
 	</Drawer>
-	<Dialog
-		bind:open={isDialogOpen}
-		aria-labelledby="simple-title"
-		aria-describedby="simple-content"
-		class="custom-dialog"
-	>
-		<!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
-		<Titlee id="simple-title">Add to my collection</Titlee>
-		<Content id="simple-content">
-			<p>Who's the lucky funko pop today?</p>
-			<input type="text" placeholder="Enter the name of the funko pop" />
-			<p>Hard earned money I paid for 😊</p>
-			<input type="number" placeholder="Enter the price of the funko pop" />
-			<p>Category</p>
-			<input type="text" placeholder="Enter the category of the funko pop" />
-		</Content>
-		
-		<Actions>
-			<Button on:click={() => (clicked = 'No')}>
-				<Label>Cancel</Label>
-			</Button>
-			<Button
-				use={[InitialFocus]} 
-				on:click={() => (clicked = 'Yes')}
-			>
-				<Label>Add</Label>
-			</Button>
-		</Actions>
-	</Dialog>
+	<AddDialogue bind:isDialogOpen/>
 </AutoAdjust>
 
 <style>
@@ -83,8 +54,5 @@
 		padding: 0.750rem;
 	}
 
-	input {
-		color: black;
-		margin-bottom: 1.25rem;
-	}
+
 </style>
