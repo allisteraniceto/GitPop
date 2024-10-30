@@ -16,12 +16,12 @@ const FunkoPopSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  series: [{
-    type: String,
-  }],
+  series: [
+    {
+      type: String,
+    },
+  ],
 });
 
 // Create a model based on the schema
-export const FunkoPop = mongoose.model('FunkoPop', FunkoPopSchema, 'funkos');
-
-
+export const FunkoPop = mongoose.model("FunkoPop", FunkoPopSchema, "funkos");
