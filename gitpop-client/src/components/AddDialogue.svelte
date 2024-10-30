@@ -4,9 +4,15 @@
 
     export let isDialogOpen: boolean = false;
 
-    // let isDialogOpen: boolean = false;
+    let funkoPopName: string = "";
+    let funkoPopPrice: number;
+    let funkoPopCategory: string = "";
 
     $: console.log("isDialogOpen:", isDialogOpen);
+
+    $: console.log("funkoPopName:", funkoPopName);
+    $: console.log("funkoPopPrice:", funkoPopPrice);
+    $: console.log("funkoPopCategory:", funkoPopCategory);
     
 </script>
 
@@ -20,11 +26,11 @@
 <Titlee id="simple-title">Add to my collection</Titlee>
     <Content id="simple-content">
         <p>Who's the lucky funko pop today?</p>
-        <input type="text" placeholder="Enter the name of the funko pop" />
+        <input type="text" placeholder="Enter the name of the funko pop" bind:value={funkoPopName}/>
         <p>Hard earned money I paid for 😊</p>
-        <input type="number" placeholder="Enter the price of the funko pop" />
+        <input type="number" placeholder="Enter the price of the funko pop" bind:value={funkoPopPrice}/>
         <p>Category</p>
-        <input type="text" placeholder="Enter the category of the funko pop" />
+        <input type="text" placeholder="Enter the category of the funko pop" bind:value={funkoPopCategory}/>
     </Content>
 
     <Actions>
@@ -36,6 +42,7 @@
             on:click={() => (isDialogOpen = false)}
         >
             <Label>Add</Label>
+            <span class="material-icons small-icon">add</span>
         </Button>
     </Actions>
 </Dialog>
@@ -45,4 +52,7 @@
 		color: black;
 		margin-bottom: 1.25rem;
 	}
+    .small-icon{
+        font-size: 13px
+    }
 </style>
