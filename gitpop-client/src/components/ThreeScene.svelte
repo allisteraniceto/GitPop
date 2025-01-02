@@ -4,7 +4,7 @@
   import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
   import modeURL from '../assets/Itachi-9_2_2024.glb'
 
-  let canvas: HTMLCanvasElement;
+  let canvas: HTMLCanvasElement | any = $state();
   let model: THREE.Group;
   let pivot: THREE.Object3D
 

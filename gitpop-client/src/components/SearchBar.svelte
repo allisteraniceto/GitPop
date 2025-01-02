@@ -20,7 +20,7 @@
 		}
 	];
 
-	let selectCategory = 'All categories';
+	let selectCategory = $state('All categories');
 </script>
 
 <div class="flex justify-center">

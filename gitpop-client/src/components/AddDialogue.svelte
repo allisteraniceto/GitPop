@@ -2,18 +2,16 @@
 	import Dialog, { Title as Titlee, Content, Actions, InitialFocus } from '@smui/dialog';
 	import Button, { Label } from '@smui/button';
 
-    export let isDialogOpen: boolean = false;
 
-    let funkoPopName: string = "";
-    let funkoPopPrice: number;
-    let funkoPopCategory: string = "";
+    interface Props{
+        isDialogOpen?: boolean;
+    } 
 
-    $: console.log("isDialogOpen:", isDialogOpen);
+    let { isDialogOpen = $bindable(false) }: Props = $props();
 
-    $: console.log("funkoPopName:", funkoPopName);
-    $: console.log("funkoPopPrice:", funkoPopPrice);
-    $: console.log("funkoPopCategory:", funkoPopCategory);
-    
+    let funkoPopName: string = $state("");
+    let funkoPopPrice: number = $state(0);
+    let funkoPopCategory: string = $state("");
 </script>
 
 <Dialog

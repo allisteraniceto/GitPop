@@ -21,7 +21,7 @@
 		}
 	];
 
-	let active: any = tabs[0];
+	let active: any = $state(tabs[0]);
 
 	const handleTabClick = (tab: any) => {
 		active = tab;
@@ -30,11 +30,13 @@
 </script>
 
 <div>
-	<TabBar {tabs} let:tab bind:active>
-		<Tab {tab} on:click={() => handleTabClick(tab)}>
-			<Icon class="material-icons">{tab.icon}</Icon>
-			<Label>{tab.label}</Label>
-		</Tab>
+	<TabBar {tabs}  bind:active>
+		{#snippet tab(tab)}
+			<Tab {tab} onclick={() => handleTabClick(tab)}>
+				<Icon class="material-icons">{tab.icon}</Icon>
+				<Label>{tab.label}</Label>
+			</Tab>
+		{/snippet}
 	</TabBar>
 </div>
 

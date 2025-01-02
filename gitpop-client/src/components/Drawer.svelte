@@ -3,12 +3,15 @@
 	import Button, { Label } from '@smui/button';
 	import List, { Item, Text } from '@smui/list';
 
-	export let isDrawerOpen: boolean;
-	export let isDialogOpen: boolean = false;
+	interface Props {
+		isDrawerOpen: boolean;
+		isDialogOpen?: boolean;
+		children?: import('svelte').Snippet;
+	}
 
-	$: console.log('isDialogOpen:', isDialogOpen);
+	let { isDrawerOpen = $bindable(), isDialogOpen = $bindable(false), children }: Props = $props();
 
-	let active = 'Gray Kittens';
+	let active = $state('Gray Kittens');
 
 	function setActive(value: string) {
 		active = value;
@@ -61,7 +64,7 @@
 	</Drawer>
 	<AppContent class="app-content">
 		<main class="main-content">
-			<slot />
+			{@render children?.()}
 		</main>
 	</AppContent>
 </div>

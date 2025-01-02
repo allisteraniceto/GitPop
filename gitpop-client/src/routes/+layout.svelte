@@ -6,9 +6,15 @@
 	import Drawer from '../components/Drawer.svelte';
 	import AddDialogue from '../components/AddDialogue.svelte';
 
-	let topAppBar: TopAppBar;
-	let isDialogOpen: boolean = false;
-	let isDrawerOpen: boolean = true;
+	interface Props {
+		children?: any;
+	}
+	
+	let { children }: Props = $props();
+
+	let topAppBar: TopAppBar | null = $state(null);
+	let isDialogOpen: boolean = $state(false);
+	let isDrawerOpen: boolean = $state(true);
 
 	const handleMenuClick = (e: MouseEvent) => {
 		isDrawerOpen = !isDrawerOpen;
@@ -19,7 +25,7 @@
 <TopAppBar bind:this={topAppBar} variant="standard" style="background-color: #504F4E">
 	<Row>
 		<Section style="width: 1rem;">
-			<IconButton on:click={handleMenuClick} class="material-icons">menu</IconButton>
+			<IconButton onclick={handleMenuClick} class="material-icons">menu</IconButton>
 			<Title>GitPop</Title>
 		</Section>
 		<Section>
@@ -29,7 +35,7 @@
 </TopAppBar>
 <AutoAdjust {topAppBar}>
 	<Drawer {isDrawerOpen} bind:isDialogOpen>
-		<slot/>
+		{@render children?.()}
 	</Drawer>
 	<AddDialogue bind:isDialogOpen/>
 </AutoAdjust>
