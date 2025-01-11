@@ -28,35 +28,35 @@
 			<List>
 				<Item
 					href="javascript:void(0)"
-					on:click={() => setActive('Gray Kittens')}
+					onclick={() => setActive('Gray Kittens')}
 					activated={active === 'Gray Kittens'}
 				>
 					<Text>My collection</Text>
 				</Item>
 				<Item
 					href="javascript:void(0)"
-					on:click={() => setActive('A Space Rocket')}
+					onclick={() => setActive('A Space Rocket')}
 					activated={active === 'A Space Rocket'}
 				>
 					<Text>Favorites</Text>
 				</Item>
 				<Item
 					href="javascript:void(0)"
-					on:click={() => setActive('100 Pounds of Gravel')}
+					onclick={() => setActive('100 Pounds of Gravel')}
 					activated={active === '100 Pounds of Gravel'}
 				>
 					<Text>Wishlist</Text>
 				</Item>
 				<Item
 					href="javascript:void(0)"
-					on:click={() => setActive('All of the Shrimp')}
+					onclick={() => setActive('All of the Shrimp')}
 					activated={active === 'All of the Shrimp'}
 				>
 					<Text>Exclusive Pops </Text>
 				</Item>
 			</List>
 			<div class="add-to-collection">
-				<Button on:click={() => {isDialogOpen = !isDialogOpen}}>
+				<Button onclick={() => {isDialogOpen = !isDialogOpen}}>
 					<Label>Add to my collection</Label>
 				</Button>
 			</div>
@@ -86,11 +86,11 @@
 		overflow: auto;
 		position: relative;
 		flex-grow: 1;
+		height: 100vh;
 	}
 	.main-content {
-		overflow: auto;
+		height: calc(100vh - 4rem);
 		padding: 16px;
-		height: 100%;
 		box-sizing: border-box;
 	}
 

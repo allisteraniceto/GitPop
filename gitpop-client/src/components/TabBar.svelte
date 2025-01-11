@@ -18,7 +18,7 @@
 			icon: 'info',
 			label: 'About Us',
 			route: '/about'
-		}
+		},
 	];
 
 	let active: any = $state(tabs[0]);
@@ -30,7 +30,7 @@
 </script>
 
 <div>
-	<TabBar {tabs}  bind:active>
+	<TabBar {tabs} bind:active>
 		{#snippet tab(tab)}
 			<Tab {tab} onclick={() => handleTabClick(tab)}>
 				<Icon class="material-icons">{tab.icon}</Icon>

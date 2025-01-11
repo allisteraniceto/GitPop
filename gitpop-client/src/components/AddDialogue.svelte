@@ -1,5 +1,5 @@
 <script lang=ts>
-	import Dialog, { Title as Titlee, Content, Actions, InitialFocus } from '@smui/dialog';
+	import Dialog, { Title, Content, Actions, InitialFocus } from '@smui/dialog';
 	import Button, { Label } from '@smui/button';
 
 
@@ -21,7 +21,7 @@
     class="custom-dialog"
 >
 <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
-<Titlee id="simple-title">Add to my collection</Titlee>
+<Title id="simple-title">Add to my collection</Title>
     <Content id="simple-content">
         <p>Who's the lucky funko pop today?</p>
         <input type="text" placeholder="Enter the name of the funko pop" bind:value={funkoPopName}/>
@@ -32,12 +32,12 @@
     </Content>
 
     <Actions>
-        <Button on:click={() => (isDialogOpen = false)}>
+        <Button onclick={() => (isDialogOpen = false)}>
             <Label>Cancel</Label>
         </Button>
         <Button
             use={[InitialFocus]} 
-            on:click={() => (isDialogOpen = false)}
+            onclick={() => (isDialogOpen = false)}
         >
             <Label>Add</Label>
             <span class="material-icons small-icon">add</span>

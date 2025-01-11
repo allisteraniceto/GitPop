@@ -1,8 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import TopAppBar, { Row, Section, Title, AutoAdjust } from '@smui/top-app-bar';
-	import IconButton from '@smui/icon-button';
-	import TabBar from '../components/TabBar.svelte';
+	import TopBar from '../components/TopBar.svelte'
 	import Drawer from '../components/Drawer.svelte';
 	import AddDialogue from '../components/AddDialogue.svelte';
 
@@ -11,28 +10,21 @@
 	}
 	
 	let { children }: Props = $props();
+	let topAppBar: TopAppBar | any = $state();
 
-	let topAppBar: TopAppBar | null = $state(null);
 	let isDialogOpen: boolean = $state(false);
 	let isDrawerOpen: boolean = $state(true);
 
 	const handleMenuClick = (e: MouseEvent) => {
 		isDrawerOpen = !isDrawerOpen;
-		console.log('Yeeeeeeeeeeeeet:', isDrawerOpen);
 	}
+
+	$effect(() => {
+		console.log("isDrawerOpen", isDrawerOpen);
+	})
 </script>
 
-<TopAppBar bind:this={topAppBar} variant="standard" style="background-color: #504F4E">
-	<Row>
-		<Section style="width: 1rem;">
-			<IconButton onclick={handleMenuClick} class="material-icons">menu</IconButton>
-			<Title>GitPop</Title>
-		</Section>
-		<Section>
-			<TabBar></TabBar>
-		</Section>
-	</Row>
-</TopAppBar>
+<TopBar bind:topAppBar bind:isDrawerOpen/>
 <AutoAdjust {topAppBar}>
 	<Drawer {isDrawerOpen} bind:isDialogOpen>
 		{@render children?.()}
