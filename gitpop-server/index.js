@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose"; //used to connect to mongo db
 import dotenv from "dotenv";
+import cors from 'cors';
 import { FunkoPop } from "./models/funkopop.model.js";
 import { User } from "./models/user.model.js";
 
@@ -9,6 +10,8 @@ dotenv.config();
 
 const PORT = process.env.PORT || 7000; //7000 as alternate port
 const MONGO_URL = process.env.MONGO_URL;
+
+app.use(cors());
 
 app.get("/all-funkos", async (req, res) => {
   try {

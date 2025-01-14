@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import ImageList, { Item, ImageAspectContainer, Supporting, Label} from '@smui/image-list';
 	import IconButton from '@smui/icon-button';
 
@@ -8,10 +9,12 @@
 	import { userFunkoPops } from '../stores/userFunkoPops.js';
 	import type { FunkoPop } from '../../types/funko/funko';
 
+	import { getFunkos } from '../lib/api/funkos';
 
 	// let arr = $state(Array.from({ length: 15 }, (_, i) => ({ id: i, value: 0 })));
 
 	let localUserFunkoPops = $state($userFunkoPops);
+	let funkos: any = $state();
 
 	function getUnevenImageSize(
 		counter: number,
@@ -23,7 +26,7 @@
 		return base + Math.floor(preAdd(mid));
 	}
 
-	const removeItem = (id: number) => {
+	const removeItem = (id: string) => {
 		userFunkoPops.update((currentValue: FunkoPop[]) => {
 			return currentValue.filter((funko) => funko.id !== id);
 		});
@@ -32,10 +35,25 @@
 	userFunkoPops.subscribe((value: any) => {
 		console.log("useFunkoPops store updated:", value);
 	});
+
+	const getFunkosAPI = async () => {
+		funkos = await getFunkos();
+	}
+
+	onMount(() => {
+		getFunkosAPI();
+	});
 </script>
 
 <SearchBar />
 <div class="image-list-container">
+	<h1>
+		{#if funkos}
+			{funkos}
+		{:else}
+			NOTHINGGG
+		{/if}
+	</h1>
 	<ImageList class="my-image-list-masonry" masonry>
 		{#each $userFunkoPops as item}
 			<div class="pop-card">
