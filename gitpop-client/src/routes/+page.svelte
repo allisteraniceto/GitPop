@@ -34,7 +34,7 @@
 
 	const removeItem = (id: string) => {
 		userFunkoPops.update((currentValue) => {
-			return currentValue.filter((funko) => funko.id !== id);
+			return currentValue.filter((funko) => funko.popID !== id);
 		});
 	}
 
@@ -47,26 +47,25 @@
 	});
 
 	const getFunkosAPI = async () => {
-		try {
-			// can be optimized to only run awaits at the same time if they are independent
-			let allFunkos = await getAllFunkos();
-			let userResponse = await getUserInventory();
+		// can be optimized to only run awaits at the same time if they are independent
+		let allFunkos = await getAllFunkos();
 
-			userInventory = userResponse.inventory;
 
-			userFunkoPops.update((currentValue) => {
-				return [...currentValue, ...userInventory];
-			});
+		allFunkoPops.update( (currentValue) => {
+			return [...currentValue, ...allFunkos];
+		});
+	}
 
-			allFunkoPops.update( (currentValue) => {
-				return [...currentValue, ...allFunkos];
-			});
-		} catch (error) {
-			console.error("Error fetching funkos", error);
-		}
+	const getUserFunkos = async () => {
+		userInventory = await getUserInventory();
+
+		userFunkoPops.update((currentValue) => {
+			return [...currentValue, ...userInventory];
+		})
 	}
 
 	onMount(() => {
+		getUserFunkos();
 		getFunkosAPI();
 	});
 </script>

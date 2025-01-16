@@ -7,39 +7,51 @@
     import { addFunkoPop } from '../stores/addFunkoPop.js';
     import { userFunkoPops } from '../stores/userFunkoPops.js';
 
+	import { addUserFunko } from '../lib/api/user'
+
     import { v4 as uuidv4 } from 'uuid';
+
     interface Props{
         isDialogOpen?: boolean;
     } 
 
     let { isDialogOpen = $bindable(false) }: Props = $props();
 
-    let funkoPopTemp: FunkoPop = $state({
-        id: 'a',
-        name: "",
-        price: 0,
-        category: ""
-    });
-
     let funkoPopID: number = $state(0)
     let funkoPopName: string = $state("");
     let funkoPopPrice: number = $state(0);
     let funkoPopCategory: string = $state("");
 
-    const addFunko = () => {
-        funkoPopTemp = {
-            id: uuidv4(),
-            name: funkoPopName,
+    const resetForm = () => {
+        funkoPopName = "";
+        funkoPopPrice = 0;
+        funkoPopCategory = "";
+    };
+
+    const todayDate = () => {
+        let today = new Date();
+        return today;
+    };
+
+    const handleAddUserFunko = async () => {
+        let funkoPop: FunkoPop = {
+            popID: uuidv4(),
+            funkoName: funkoPopName,
             price: funkoPopPrice,
-            category: funkoPopCategory
+            category: funkoPopCategory,
+            acquiredDate: todayDate(),
         }
-        isDialogOpen = false;
 
         userFunkoPops.update((currentValue: FunkoPop[]) => {
-            return [...currentValue, funkoPopTemp];
+            return [...currentValue, funkoPop];
         });
 
-        // console.log("funkoPop being added:", funkoPopTemp);
+        const addedFunko = await addUserFunko(funkoPop);
+
+        console.log("addedFunko", addedFunko);
+
+        isDialogOpen = false;
+        resetForm();
     }
 
     addFunkoPop.subscribe((value: any) => {
@@ -67,7 +79,7 @@
     <Actions>
         <Button
         use={[InitialFocus]} 
-        onclick={() => addFunko()}
+        onclick={() => handleAddUserFunko()}
         >   
         <Label>Add</Label>
             <span class="material-icons small-icon">add</span>  

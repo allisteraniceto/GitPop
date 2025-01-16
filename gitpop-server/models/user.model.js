@@ -7,11 +7,12 @@ const userSchema = new mongoose.Schema({
   //   passwordHash: { type: String, required: true },
   inventory: [
     {
-      popId: { type: Schema.Types.ObjectId, ref: "Funko", required: true },
+      popID: { type: String, ref: "Funko", required: true },
       funkoName: { type: String },
       quantity: { type: Number, default: 1 },
       acquiredDate: { type: Date, default: Date.now },
       notes: { type: String },
+      price: { type: Number, default: 0, required: true },
     },
   ],
 });

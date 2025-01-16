@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 7000; //7000 as alternate port
 const MONGO_URL = process.env.MONGO_URL;
 
 app.use(cors());
+app.use(express.json());
 
 app.get("/all-funkos", async (req, res) => {
   try {
@@ -42,10 +43,34 @@ app.get("/user-funkos", async (req, res) => {
       { username: "testuser" },
       { inventory: 1, _id: 0 } // 1 means include, 0 means exclude
     );
-    res.json(user);
-    console.log(user);
+    res.json(user.inventory);
+    console.log("GET User Inventory:", user.inventory);
   } catch (err) {
     res.status(500).send(err.message);
+  }
+});
+
+// POST endpoint to add a Funko Pop to a user's inventory
+
+app.post("/add-to-inventory", async (req, res) => {
+  try{
+    //find user
+    //add new funko to user's inventory
+    const newFunko = req.body;
+
+    const user = await User.findOne({username: "testuser"});
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    user.inventory.push(newFunko);
+
+    await user.save();
+
+    res.status(201).json(newFunko);
+  } catch (error){
+    res.status(500).send(error.message);
   }
 });
 

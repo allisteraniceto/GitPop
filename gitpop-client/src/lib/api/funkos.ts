@@ -1,5 +1,6 @@
 import axiosClient from '../utils/axiosClient';
 
+//GET request all Funko Pops in funkoDB collection
 export const getAllFunkos = async () => {
 	try {
 		const response = await axiosClient.get('/all-funkos');
