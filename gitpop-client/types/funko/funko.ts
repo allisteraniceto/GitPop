@@ -1,6 +1,6 @@
 export interface FunkoPop {
 	id: string;
-	name: string;
+	funkoName: string;
 	price: number;
 	category: string;
 }

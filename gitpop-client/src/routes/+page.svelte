@@ -6,15 +6,21 @@
 	import SearchBar from '../components/SearchBar.svelte';
 	import ThreeScene from '../components/ThreeScene.svelte';
 
-	import { userFunkoPops } from '../stores/userFunkoPops.js';
-	import type { FunkoPop } from '../../types/funko/funko';
+	//stores
+	import { userFunkoPops } from '../stores/userFunkoPops';
+	import { allFunkoPops } from '../stores/allFunkoPops';
 
-	import { getFunkos } from '../lib/api/funkos';
+	//TODO: remove dummy data and configure correct types for user inventory
+
+	// import type { FunkoPop } from '../../types/funko/funko';
+
+	import { getAllFunkos } from '../lib/api/funkos';
+	import { getUserInventory } from '../lib/api/user';
 
 	// let arr = $state(Array.from({ length: 15 }, (_, i) => ({ id: i, value: 0 })));
 
 	let localUserFunkoPops = $state($userFunkoPops);
-	let funkos: any = $state();
+	let userInventory: any = $state();
 
 	function getUnevenImageSize(
 		counter: number,
@@ -27,17 +33,37 @@
 	}
 
 	const removeItem = (id: string) => {
-		userFunkoPops.update((currentValue: FunkoPop[]) => {
+		userFunkoPops.update((currentValue) => {
 			return currentValue.filter((funko) => funko.id !== id);
 		});
 	}
 
 	userFunkoPops.subscribe((value: any) => {
-		console.log("useFunkoPops store updated:", value);
+		console.log("userFunkoPops store updated:", value);
+	});
+
+	allFunkoPops.subscribe( (value: any) => {
+		console.log("allFunkoPops store updated:", value);
 	});
 
 	const getFunkosAPI = async () => {
-		funkos = await getFunkos();
+		try {
+			// can be optimized to only run awaits at the same time if they are independent
+			let allFunkos = await getAllFunkos();
+			let userResponse = await getUserInventory();
+
+			userInventory = userResponse.inventory;
+
+			userFunkoPops.update((currentValue) => {
+				return [...currentValue, ...userInventory];
+			});
+
+			allFunkoPops.update( (currentValue) => {
+				return [...currentValue, ...allFunkos];
+			});
+		} catch (error) {
+			console.error("Error fetching funkos", error);
+		}
 	}
 
 	onMount(() => {
@@ -47,13 +73,6 @@
 
 <SearchBar />
 <div class="image-list-container">
-	<h1>
-		{#if funkos}
-			{funkos}
-		{:else}
-			NOTHINGGG
-		{/if}
-	</h1>
 	<ImageList class="my-image-list-masonry" masonry>
 		{#each $userFunkoPops as item}
 			<div class="pop-card">
@@ -65,7 +84,7 @@
 						<ThreeScene/>
 					<!-- </ImageAspectContainer> -->
 					<Supporting>
-						<Label>{item.name}</Label>
+						<Label>{item.funkoName}</Label>
 					</Supporting>
 				</Item>
 			</div>

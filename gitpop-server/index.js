@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose"; //used to connect to mongo db
 import dotenv from "dotenv";
-import cors from 'cors';
+import cors from "cors";
 import { FunkoPop } from "./models/funkopop.model.js";
 import { User } from "./models/user.model.js";
 
@@ -24,11 +24,26 @@ app.get("/all-funkos", async (req, res) => {
 });
 
 // POST endpoint to add a new Funko Pop
-app.post("/funkos", async (req, res) => {
+app.post("/add-funko", async (req, res) => {
   try {
     const newFunko = new FunkoPop(req.body);
     await newFunko.save();
     res.status(201).json(newFunko);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+// GET endpoint to retrieve users collection
+app.get("/user-funkos", async (req, res) => {
+  try {
+    // retreive specific user's inventory
+    const user = await User.findOne(
+      { username: "testuser" },
+      { inventory: 1, _id: 0 } // 1 means include, 0 means exclude
+    );
+    res.json(user);
+    console.log(user);
   } catch (err) {
     res.status(500).send(err.message);
   }
