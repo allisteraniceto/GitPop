@@ -29,7 +29,9 @@
 	<Drawer {isDrawerOpen} bind:isDialogOpen>
 		{@render children?.()}
 	</Drawer>
-	<AddDialogue bind:isDialogOpen/>
+	<div class="add-dialog">
+		<AddDialogue bind:isDialogOpen/>
+	</div>		
 </AutoAdjust>
 
 <style>
@@ -43,7 +45,7 @@
 		position: static !important;
 		margin: 0;
 	}
-	:global(.mdc-dialog__surface){
+	:global(.add-dialog .mdc-dialog__surface){
 		width: 30rem;
 		height: 25rem;
 		max-height: 100%;

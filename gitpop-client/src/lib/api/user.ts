@@ -21,3 +21,14 @@ export const addUserFunko = async (newFunko: any) => {
 		console.error('Error adding Funko: ', error);
 	}
 };
+
+//DELETE request to remove a Funko Pop from a User's inventory
+
+export const removeUserFunko = async (popID: string) => {
+	try {
+		const response = await axiosClient.delete(`/remove-from-inventory/${popID}`);
+		return response.data;
+	} catch (error) {
+		console.error('Error removing Funko: ', error);
+	}
+};

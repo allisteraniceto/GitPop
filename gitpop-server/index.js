@@ -17,7 +17,6 @@ app.use(express.json());
 app.get("/all-funkos", async (req, res) => {
   try {
     const funkos = await FunkoPop.find({});
-    console.log("GET Funkos requested: ", funkos);
     res.json(funkos);
   } catch (err) {
     res.status(500).send(err.message);
@@ -53,12 +52,12 @@ app.get("/user-funkos", async (req, res) => {
 // POST endpoint to add a Funko Pop to a user's inventory
 
 app.post("/add-to-inventory", async (req, res) => {
-  try{
+  try {
     //find user
     //add new funko to user's inventory
     const newFunko = req.body;
 
-    const user = await User.findOne({username: "testuser"});
+    const user = await User.findOne({ username: "testuser" });
 
     if (!user) {
       return res.status(404).send("User not found");
@@ -69,7 +68,25 @@ app.post("/add-to-inventory", async (req, res) => {
     await user.save();
 
     res.status(201).json(newFunko);
-  } catch (error){
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.delete("/remove-from-inventory/:popID", async (req, res) => {
+  try {
+    const { popID, username } = req.params;
+
+    const user = await User.findOne({ username: "testuser" });
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    user.inventory = user.inventory.filter((item) => item.popID !== popID);
+
+    await user.save();
+  } catch (error) {
     res.status(500).send(error.message);
   }
 });

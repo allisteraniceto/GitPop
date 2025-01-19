@@ -5,6 +5,7 @@
 
 	import SearchBar from '../components/SearchBar.svelte';
 	import ThreeScene from '../components/ThreeScene.svelte';
+	import RemoveDialogue from '../components/RemoveDialogue.svelte';
 
 	//stores
 	import { userFunkoPops } from '../stores/userFunkoPops';
@@ -14,13 +15,24 @@
 
 	// import type { FunkoPop } from '../../types/funko/funko';
 
+	// apis
 	import { getAllFunkos } from '../lib/api/funkos';
-	import { getUserInventory } from '../lib/api/user';
+	import { getUserInventory, removeUserFunko } from '../lib/api/user';
 
 	// let arr = $state(Array.from({ length: 15 }, (_, i) => ({ id: i, value: 0 })));
 
+	$effect( () => {
+		console.log("removeDialog", removeDialog);
+	})
+
+	$effect( () => {
+		console.log("removePopID", removePopID);
+	})
+
 	let localUserFunkoPops = $state($userFunkoPops);
 	let userInventory: any = $state();
+	let removeDialog = $state(false);
+	let removePopID: string = $state("")
 
 	function getUnevenImageSize(
 		counter: number,
@@ -32,18 +44,18 @@
 		return base + Math.floor(preAdd(mid));
 	}
 
-	const removeItem = (id: string) => {
-		userFunkoPops.update((currentValue) => {
-			return currentValue.filter((funko) => funko.popID !== id);
-		});
-	}
+	// const removeItem = (id: string) => {
+	// 	userFunkoPops.update((currentValue) => {
+	// 		return currentValue.filter((funko) => funko.popID !== id);
+	// 	});
+	// }
 
 	userFunkoPops.subscribe((value: any) => {
 		console.log("userFunkoPops store updated:", value);
 	});
 
 	allFunkoPops.subscribe( (value: any) => {
-		console.log("allFunkoPops store updated:", value);
+		// console.log("allFunkoPops store updated:", value);
 	});
 
 	const getFunkosAPI = async () => {
@@ -64,6 +76,11 @@
 		})
 	}
 
+	const removeFunko = (popID: string) => {
+		removeDialog = true;
+		removePopID = popID;
+	}
+
 	onMount(() => {
 		getUserFunkos();
 		getFunkosAPI();
@@ -76,7 +93,7 @@
 		{#each $userFunkoPops as item}
 			<div class="pop-card">
 				<Item>
-					<div class="close-button" onclick={() => removeItem(item.id)}>
+					<div class="close-button" onclick={() => removeFunko(item.popID)}>
 						<span class="material-icons close">close</span>					
 					</div>
 					<!-- <ImageAspectContainer> -->
@@ -91,6 +108,9 @@
 	</ImageList>
 	<!-- <ThreeScene/> -->
 </div>
+{#if removeDialog}
+	<RemoveDialogue bind:removeDialog={removeDialog} {removePopID}/>
+{/if}
 
 <style lang="scss">
 	@use '@material/image-list/mixins' as image-list;
